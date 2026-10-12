@@ -1,8 +1,11 @@
 <?php
 
-use App\Http\Controllers\BookController;
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Admin\BookController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\User\CartController;
+use App\Http\Controllers\User\BookController as UserBookController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -13,8 +16,12 @@ Route::get('/dashboard', function (Request $request) {
         return redirect()->route('admin.index');
     }
 
-    return redirect()->route('user.index');
+    return redirect()->route('user.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/about-us', function () {
+    return view('landing.section.about-us');
+})->name('about-us');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -22,24 +29,25 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
 Route::middleware(['auth'])->group(function () {
-    Route::get('/admin/dashboard', function () {
-        return view('dashboard');
-    })->name('admin.index');
-
+    Route::get('/admin/dashboard',[UserController::class, 'index'])->name('admin.index');
     Route::resource('categories', CategoryController::class);
-    Route::resource('books', BookController::class);
+    Route::resource('books',BookController::class);
 });
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/user/dashboard', function () {
-        return view('user.index');
-    })->name('user.index');
+Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
+    Route::get('/dashboard', [UserBookController::class, 'index'])->name('dashboard');
+    Route::get('/book/{book}', [UserBookController::class, 'show'])->name('books.show');
+
+    Route::prefix('cart')->name('cart.')->group(function () {
+        Route::get('/', [CartController::class, 'index'])->name('index');
+        Route::post('/add/{book}', [CartController::class, 'add'])->name('add');
+        Route::patch('/update/{bookId}', [CartController::class, 'update'])->name('update');
+        Route::delete('/remove/{bookId}', [CartController::class, 'remove'])->name('remove');
+        Route::delete('/clear', [CartController::class, 'clear'])->name('clear');
+    });
 });
 
-Route::resource('categories', CategoryController::class)->middleware('auth');
-Route::resource('books', BookController::class)->middleware('auth');
 
 
 require __DIR__.'/auth.php';

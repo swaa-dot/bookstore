@@ -6,7 +6,7 @@
                 Tambah Buku
             </h2>
             <p class="mt-1 text-sm text-gray-500">
-                Tambahkan data buku baru ke BookStore.
+                Tambahkan data buku baru ke BookWorld.
             </p>
         </div>
     </x-slot>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Book;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +14,8 @@ class ProfileController extends Controller
 {
     public function landing(): View
     {
-        return view('landing.index');
+        $books = Book::query()->with('category')->orderBy('created_at', 'desc')->get();
+        return view('landing.index', compact('books'));
     }
 
     /**

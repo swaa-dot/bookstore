@@ -7,7 +7,7 @@
                     Data Buku
                 </h2>
                 <p class="mt-1 text-sm text-gray-500">
-                    Kelola data buku yang tersedia di BookStore.
+                    Kelola data buku yang tersedia di BookWorld.
                 </p>
             </div>
 

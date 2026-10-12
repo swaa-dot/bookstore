@@ -16,8 +16,8 @@
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
+        <div class="flex items-center justify-end mt-4 ">
+            <x-primary-button class="bg-indigo-600 px-4 py-2 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                 {{ __('Email Password Reset Link') }}
             </x-primary-button>
         </div>

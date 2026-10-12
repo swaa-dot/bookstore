@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCategoryBookRequest;
 use App\Http\Requests\UpdateCategoryBookRequest;
 use App\Models\Category;
@@ -56,8 +57,6 @@ class CategoryController extends Controller
             return redirect()
                 ->route('categories.index')
                 ->with('error', 'Kategori tidak dapat dihapus karena masih digunakan oleh buku.');
-
-
         }
 
         $category->delete();
